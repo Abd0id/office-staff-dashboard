@@ -1,30 +1,51 @@
 # Office Staff Dashboard
 
-## Description
-This project is an interactive web application for managing employee assignments in office zones. It allows adding, moving, and removing employees directly from a graphical interface representing the office floor plan. The app ensures business rules are respected (e.g., role-based zone restrictions) and provides a responsive, intuitive, and smooth user experience on desktop, tablet, and mobile devices.
+## 📝 Description
+Ce projet est une application web interactive permettant de gérer l’affectation des employés dans différentes zones d’un bureau.  
+Elle permet d’ajouter, déplacer et supprimer des employés depuis une interface graphique représentant le plan d’étage.  
+L’application respecte des règles métiers (ex : restrictions selon le rôle) et offre une expérience fluide, intuitive et responsive sur ordinateur, tablette et mobile.
 
-## Features
-- Add, edit, and remove employees
-- Role-based assignment restrictions
-- Detailed employee profiles with photo, contact info, and experiences
-- Floor plan with 6 zones: Conference, Reception, Servers, Security, Staff, Archives
-- Visual indicators for empty required zones
-- Limit employees per zone
-- Drag & drop functionality (bonus)
-- Search and filter employees by name or role (bonus)
-- Auto-save floor plan state in localStorage (bonus)
-- Auto-arrange employees based on rules (bonus)
-- Responsive design with smooth animations
+---
 
-## Screens
-- Desktop, tablet, and mobile versions
-- Modern UI with Flexbox/Grid, rounded shapes, and color-coded buttons
+## ⭐ Fonctionnalités
 
-## Technologies
-- HTML, CSS, JavaScript
-- GitHub Pages for deployment
+- Ajouter, modifier et supprimer des employés  
+- Restrictions d’affectation basées sur le rôle  
+- Profils détaillés (photo, contact, expériences, localisation)  
+- Plan du bureau avec 6 zones :  
+  - Salle de conférence  
+  - Réception  
+  - Salle des serveurs  
+  - Salle de sécurité  
+  - Salle du personnel  
+  - Salle d’archives  
+- Indicateurs visuels pour les zones obligatoires vides  
+- Limitation du nombre d’employés par zone  
+- **Bonus :** Drag & Drop entre zones  
+- **Bonus :** Recherche et filtrage par nom ou rôle  
+- **Bonus :** Sauvegarde automatique dans le `localStorage`  
+- **Bonus :** Réorganisation automatique des employés  
+- Design responsive avec animations fluides
 
-## Usage
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Abd0id/office-staff-dashboard.git
+---
+
+## 📱 Interfaces
+- Versions Desktop, Tablette et Mobile  
+- UI moderne utilisant **Flexbox**, **Grid**, formes arrondies et boutons colorés
+
+---
+
+## 🛠️ Technologies
+- **HTML**  
+- **TailwindCSS**  
+- **JavaScript**  
+- Déploiement via **GitHub Pages**
+
+---
+
+## 🚀 Utilisation
+
+1. Cloner le repository :
+
+```bash
+git clone https://github.com/Abd0id/office-staff-dashboard.git
