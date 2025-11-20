@@ -86,7 +86,7 @@ function renderEmployee() {
             employee.photo ? employee.photo : "public/Portrait_Placeholder.png"
           }"
           
-          class="rounded-full w-20"
+          class="rounded-full h-20 w-20"
         />
         <h3 class="text-center">${employee.name}</h3>
         <span class="text-sm">${employee.role}</span>
@@ -97,6 +97,7 @@ function renderEmployee() {
 
 function formValidation(event) {
   event.preventDefault();
+
   const employeeName = document.getElementById("name");
   const nameError = document.getElementById("name-error");
   const nameRegex = /^[A-Za-zÀ-ÿ' -]{2,50}/;
@@ -131,8 +132,17 @@ function formValidation(event) {
     phoneError.classList.add("hidden");
   }
 
+  const employeePreview = document.getElementById("employee-preview");
   const employeePhotoUrl = document.getElementById("url");
   const employeeRole = document.getElementById("role");
+
+  employeePhotoUrl.addEventListener("input", () => {
+    if (employeePhotoUrl.value) {
+      employeePreview.src = employeePhotoUrl.value;
+    } else {
+      employeePreview.src = "public/Portrait_Placeholder.png";
+    }
+  });
 
   if (valid) {
     let myID = generateId(employeePhone.value, employeeEmail.value);
