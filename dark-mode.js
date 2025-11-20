@@ -21,7 +21,6 @@ if (localStorage.theme === "light") {
 //theme toggle handler
 themeToggle.addEventListener("click", () => {
   const isDark = html.classList.toggle("dark");
-
   iconMoon.classList.toggle("hidden", isDark);
   iconSun.classList.toggle("hidden", !isDark);
   iconProp.setAttribute("fill", isDark ? "#FFFFFF" : "#000000");
