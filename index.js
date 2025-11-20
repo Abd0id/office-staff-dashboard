@@ -1,6 +1,4 @@
-const sideBar = document.getElementById("side-bar");
 const myForm = document.getElementById("my-form");
-const cancelBtn = document.getElementById("cancel-btn");
 
 const STORAGEKEY = "data";
 
@@ -67,8 +65,10 @@ function saveData(id = null, photoUrl, name, email, phone, role) {
 }
 
 function renderEmployee() {
+  const sideBar = document.getElementById("side-bar");
   const data = getData();
   const employees = data.employees;
+
   sideBar.innerHTML = "";
   employees.forEach((employee) => {
     sideBar.innerHTML += `
@@ -94,22 +94,6 @@ function renderEmployee() {
     `;
   });
 }
-
-function initApp() {
-  const addEmployee = document.getElementById("add-employee");
-  myForm.addEventListener("submit", formValidation);
-
-  renderEmployee();
-
-  addEmployee.addEventListener("click", () => {
-    renderForm(true);
-  });
-  cancelBtn.addEventListener("click", () => {
-    renderForm(false);
-  });
-}
-
-initApp();
 
 function formValidation(event) {
   event.preventDefault();
@@ -174,32 +158,73 @@ function formValidation(event) {
   }
 }
 
-// let data = {
-//   employees: [
-//     {
-//       id: generateId(phone, email),
-//       photo: photoUrl,
-//       name: name,
-//       email: email,
-//       phone: phone,
-//       role: role,
-//     },
-//     {
-//       id: generateId(phone, email),
-//       photo: photoUrl,
-//       name: name,
-//       email: email,
-//       phone: phone,
-//       role: role,
-//     },
-//     {
-//       id: generateId(phone, email),
-//       photo: photoUrl,
-//       name: name,
-//       email: email,
-//       phone: phone,
-//       role: role,
-//     },
-//   ],
-// };
-//
+function renderExperienceForm() {
+  let expForm = document.getElementById("exp");
+  expForm.innerHTML += `            <div
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <label
+                for="company"
+                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+                >Entreprise
+                <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="company"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <label
+                for="text-role"
+                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+                >Rôle
+                <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="text-role"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <label
+                for="from"
+                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+                >Depuis
+                <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="date"
+                id="from"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <label
+                for="to"
+                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+                >à
+                <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="date"
+                id="to"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>`;
+}
+
+function initApp() {
+  const addEmployee = document.getElementById("add-employee");
+  const addExperience = document.getElementById("add-experience");
+  const cancelBtn = document.getElementById("cancel-btn");
+  renderEmployee();
+
+  addEmployee.addEventListener("click", () => {
+    renderForm(true);
+  });
+
+  myForm.addEventListener("submit", formValidation);
+  cancelBtn.addEventListener("click", () => {
+    renderForm(false);
+  });
+  addExperience.addEventListener("click", renderExperienceForm);
+}
+
+initApp();
