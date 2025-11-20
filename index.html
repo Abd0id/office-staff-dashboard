@@ -75,9 +75,7 @@
           </button>
         </div>
 
-        <div id="side-bar" class="overflow-x-auto">
-          
-        </div>
+        <div id="side-bar" class="overflow-x-auto"></div>
       </section>
 
       <section
@@ -175,22 +173,15 @@
           class="bg-orange-50 dark:bg-gray-800 flex flex-col gap-3 z-50 h-150 w-150 p-5 scale-5 transition-all duration-500 rounded-2xl overflow-x-auto"
         >
           <label for="url">photo</label>
-          <div class="flex">
+          <div class="flex justify-center">
             <img
               src="public/Portrait_Placeholder.png"
               alt=""
               class="rounded-full h-20"
             />
-            <button
-              type="button"
-              id="uploadPhotoBtn"
-              class="ml-2 text-sm text-blue-600 hover:text-blue-800"
-            >
-              Uploader un fichier
-            </button>
           </div>
           <input
-            type="text"
+            type="url"
             id="url"
             placeholder="Photo url"
             class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -254,13 +245,18 @@
             <option value="Nettoyage">Nettoyage</option>
             <option value="Authres">Autres rôles</option>
           </select>
+          <label>Expérience</label>
 
-          <button
-            type="button"
-            class="flex-1 bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
-          >
-            Ajouter une expérience
-          </button>
+          <div id="exp" class="flex flex-col gap-2">
+            <button
+              id="add-experience"
+              type="button"
+              class="flex-1 bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+            >
+              Ajouter une expérience
+            </button>
+
+          </div>
 
           <button
             type="submit"
