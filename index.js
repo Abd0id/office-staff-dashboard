@@ -118,9 +118,16 @@ function formValidation(event) {
   event.preventDefault();
 
   const employeeOldCompany = document.getElementById("company");
+  const companyError = document.getElementById("company-error");
+
   const employeeOldRole = document.getElementById("old-role");
+  const oldRoleError = document.getElementById("old-role-error");
+
   const employeeFromDate = document.getElementById("from");
+  const fromError = document.getElementById("from-error");
+
   const employeeToDate = document.getElementById("to");
+  const toError = document.getElementById("to-error");
 
   const employeeName = document.getElementById("name");
   const nameError = document.getElementById("name-error");
@@ -154,6 +161,27 @@ function formValidation(event) {
     valid = false;
   } else {
     phoneError.classList.add("hidden");
+  }
+
+  if (!employeeOldCompany.value.match(nameRegex)) {
+    companyError.classList.remove("hidden");
+    valid = false;
+  } else {
+    companyError.classList.add("hidden");
+  }
+  if (!employeeOldRole.value.match(nameRegex)) {
+    oldRoleError.classList.remove("hidden");
+    valid = false;
+  } else {
+    companyError.classList.add("hidden");
+  }
+  if (employeeFromDate.value < employeeToDate) {
+    fromError.classList.remove("hidden");
+    toError.classList.remove("hidden");
+    valid = false;
+  } else {
+    fromError.classList.add("hidden");
+    toError.classList.add("hidden");
   }
 
   const employeePreview = document.getElementById("employee-preview");
@@ -213,6 +241,9 @@ function renderExperienceForm() {
                 id="company"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+                <p id="company-error" class="text-red-500 text-sm mt-1 hidden">
+                La company est invalid!
+                </p>
               <label
                 for="old-role"
                 class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
@@ -224,6 +255,9 @@ function renderExperienceForm() {
                 id="old-role"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+                <p id="old-role-error" class="text-red-500 text-sm mt-1 hidden">
+                Le role est invalid!
+                </p>
               <label
                 for="from"
                 class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
@@ -235,6 +269,9 @@ function renderExperienceForm() {
                 id="from"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+              <p id="from-error" class="text-red-500 text-sm mt-1 hidden">
+              La date est invalid!
+              </p>
               <label
                 for="to"
                 class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
@@ -245,7 +282,10 @@ function renderExperienceForm() {
                 type="date"
                 id="to"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              />          
+              <p id="to-error" class="text-red-500 text-sm mt-1 hidden">
+              La date est invalid!
+              </p>
             </div>`;
 }
 
