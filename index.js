@@ -33,7 +33,18 @@ function generateId(a, b) {
   return a + b;
 }
 
-function saveData(id = null, photoUrl, name, email, phone, role) {
+function saveData(
+  id = null,
+  photoUrl,
+  name,
+  email,
+  phone,
+  role,
+  company,
+  oldRole,
+  fromDate,
+  toDate
+) {
   let data = getData();
   let employeesData = data.employees;
 
@@ -45,6 +56,10 @@ function saveData(id = null, photoUrl, name, email, phone, role) {
         employee.email = email;
         employee.phone = phone;
         employee.role = role;
+        employee.company = company;
+        employee.oldRole = oldRole;
+        employee.fromDate = fromDate;
+        employee.toDate = toDate;
       }
     });
   } else {
@@ -55,6 +70,10 @@ function saveData(id = null, photoUrl, name, email, phone, role) {
       email: email,
       phone: phone,
       role: role,
+      company: company,
+      oldRole: oldRole,
+      fromDate: fromDate,
+      toDate: toDate,
     };
     employeesData.push(newEmployee);
   }
@@ -97,6 +116,11 @@ function renderEmployee() {
 
 function formValidation(event) {
   event.preventDefault();
+
+  const employeeOldCompany = document.getElementById("company");
+  const employeeOldRole = document.getElementById("old-role");
+  const employeeFromDate = document.getElementById("from");
+  const employeeToDate = document.getElementById("to");
 
   const employeeName = document.getElementById("name");
   const nameError = document.getElementById("name-error");
@@ -163,14 +187,19 @@ function formValidation(event) {
       employeeName.value,
       employeeEmail.value,
       employeePhone.value,
-      employeeRole.value
+      employeeRole.value,
+      employeeOldCompany.value,
+      employeeOldRole.value,
+      employeeFromDate.value,
+      employeeToDate.value
     );
   }
 }
 
 function renderExperienceForm() {
   let expForm = document.getElementById("exp");
-  expForm.innerHTML += `            <div
+  expForm.innerHTML += `
+              <div
               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <label
@@ -185,14 +214,14 @@ function renderExperienceForm() {
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <label
-                for="text-role"
+                for="old-role"
                 class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
                 >Rôle
                 <span class="text-red-500">*</span>
               </label>
               <input
                 type="text"
-                id="text-role"
+                id="old-role"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <label
