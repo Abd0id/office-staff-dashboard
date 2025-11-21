@@ -3,7 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --animate-wiggle: wiggle 1s ease-in-out infinite;
+  --animate-wiggle: wiggle 1s ease-in-out zzinfinite;
   @keyframes wiggle {
     0%,
     100% {
