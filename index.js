@@ -296,7 +296,7 @@ function renderZoneAssignWindow(isRender) {
 
     setTimeout(() => {
       zoneWindow.classList.replace("scale-5", "scale-100");
-    }, 10);
+    }, 1);
   } else {
     zoneBlur.classList.add("hidden");
     zoneWindow.classList.replace("scale-100", "scale-5");
@@ -317,7 +317,7 @@ function renderEmployeeFiltredList() {
         <button
           class="absolute top-0 right-0 m-2 text-blue-500 hover:text-blue-700 transition-colors ease-in-out duration-150"
         >
-          Edit
+          Assign
         </button>
         <img
           src="${
