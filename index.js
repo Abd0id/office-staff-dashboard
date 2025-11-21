@@ -22,9 +22,7 @@ function renderForm(isRender) {
     formBlur.classList.remove("hidden");
     formBlur.classList.add("flex");
 
-    setTimeout(() => {
-      myForm.classList.replace("scale-5", "scale-100");
-    }, 10);
+    myForm.classList.add("animate-scale");
   } else {
     formBlur.classList.add("hidden");
     myForm.classList.replace("scale-100", "scale-5");
@@ -294,9 +292,7 @@ function renderZoneAssignWindow(isRender) {
     zoneBlur.classList.add("flex");
     renderEmployeeFiltredList();
 
-    setTimeout(() => {
-      zoneWindow.classList.replace("scale-5", "scale-100");
-    }, 1);
+    zoneWindow.classList.add("animate-scale");
   } else {
     zoneBlur.classList.add("hidden");
     zoneWindow.classList.replace("scale-100", "scale-5");
@@ -339,7 +335,6 @@ function renderEmployeeFiltredList() {
 }
 
 function addEmployeeToZone() {
-
   const employeeCard = document.getElementsByClassName("employee-card");
   console.log(employeeCard);
 }
