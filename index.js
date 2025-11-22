@@ -10,11 +10,13 @@ function getData() {
     return JSON.parse(localStorage.getItem(STORAGEKEY));
   }
 }
-let data = getData();
 
 function saveDataToLocalstorage(data) {
   localStorage.setItem(STORAGEKEY, JSON.stringify(data));
 }
+
+let data = getData();
+const employees = data.employees;
 
 function renderForm(isRender) {
   const formBlur = document.getElementById("form-blur");
@@ -22,9 +24,7 @@ function renderForm(isRender) {
     formBlur.classList.remove("hidden");
     formBlur.classList.add("flex");
 
-    setTimeout(() => {
-      myForm.classList.replace("scale-5", "scale-100");
-    }, 10);
+    myForm.classList.add("animate-scale");
   } else {
     formBlur.classList.add("hidden");
     myForm.classList.replace("scale-100", "scale-5");
@@ -42,18 +42,18 @@ function saveData(
   email,
   phone,
   role,
+  assigned,
   experiences = null
 ) {
-  let employeesData = data.employees;
-
   if (id) {
-    employeesData.forEach((employee) => {
+    employees.forEach((employee) => {
       if (employee.id == id) {
         employee.photo = photoUrl;
         employee.name = name;
         employee.email = email;
         employee.phone = phone;
         employee.role = role;
+        employee.assigned = assigned;
         employee.experiences = experiences;
       }
     });
@@ -65,45 +65,14 @@ function saveData(
       email: email,
       phone: phone,
       role: role,
+      assigned: assigned,
       experiences: experiences,
     };
-    employeesData.push(newEmployee);
+    employees.push(newEmployee);
   }
-  data.employees = employeesData;
+  data.employees = employees;
   saveDataToLocalstorage(data);
-  console.log(data);
   renderEmployeeList();
-}
-
-function renderEmployeeList() {
-  const sideBar = document.getElementById("side-bar");
-  const employees = data.employees;
-
-  sideBar.innerHTML = "";
-  employees.forEach((employee) => {
-    sideBar.innerHTML += `
-      <div
-        id="${employee.id}"
-        class="bg-gray-100 dark:bg-gray-900 transition-all duration-500 h-35 lg:w-65 rounded-2xl m-5 flex flex-col justify-center items-center shadow-lg relative"
-        draggable="true"
-      >
-        <button
-          class="absolute top-0 right-0 m-2 text-blue-500 hover:text-blue-700 transition-colors ease-in-out duration-150"
-        >
-          Edit
-        </button>
-        <img
-          src="${
-            employee.photo ? employee.photo : "public/Portrait_Placeholder.png"
-          }"
-          
-          class="rounded-full h-20 w-20"
-        />
-        <h3 class="text-center">${employee.name}</h3>
-        <span class="text-sm">${employee.role}</span>
-      </div>
-    `;
-  });
 }
 
 function formValidation(event) {
@@ -187,7 +156,7 @@ function formValidation(event) {
 
   const employeeRole = document.getElementById("role");
 
-  employeePhotoUrl.addEventListener("input", () => {
+  employeePhotoUrl.addEventListener("change", () => {
     if (employeePhotoUrl.value) {
       employeePreview.src = employeePhotoUrl.value;
     } else {
@@ -197,7 +166,6 @@ function formValidation(event) {
 
   if (valid) {
     let myID = generateId(employeePhone.value, employeeEmail.value);
-    const employees = data.employees;
 
     for (const emp of employees) {
       if (emp.id === myID) {
@@ -205,8 +173,6 @@ function formValidation(event) {
         return;
       }
     }
-
-    console.log(experiences);
 
     renderForm(false);
     saveData(
@@ -216,74 +182,108 @@ function formValidation(event) {
       employeeEmail.value,
       employeePhone.value,
       employeeRole.value,
+      false,
       experiences
     );
   }
 }
 
+function renderEmployeeList() {
+  const sideBar = document.getElementById("side-bar");
+  sideBar.innerHTML = "";
+  employees.forEach((employee) => {
+    if (!employee.assigned) {
+      sideBar.innerHTML += `
+            <div
+            id="${employee.id}"
+            class="bg-gray-100 dark:bg-gray-900 transition-all duration-500 h-35 lg:w-65 rounded-2xl m-5 flex flex-col justify-center items-center shadow-lg relative"
+            draggable="true"
+            >
+            <button
+            class="absolute top-0 right-0 m-2 text-blue-500 hover:text-blue-700 transition-colors ease-in-out duration-150"
+            >
+            Edit
+            </button>
+            <img
+            src="${
+              employee.photo
+                ? employee.photo
+                : "public/Portrait_Placeholder.png"
+            }"
+
+            class="rounded-full h-20 w-20"
+            />
+            <h3 class="text-center">${employee.name}</h3>
+            <span class="text-sm">${employee.role}</span>
+            </div>
+            `;
+    }
+  });
+}
+
 function renderExperienceForm() {
   let expForm = document.getElementById("exp");
   expForm.innerHTML += `
-              <div
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <label
-                for="company"
-                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
-                >Entreprise
-                <span class="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="company"
-                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-                <p id="company-error" class="text-red-500 text-sm mt-1 hidden">
-                La company est invalid!
-                </p>
-              <label
-                for="old-role"
-                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
-                >Rôle
-                <span class="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="old-role"
-                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-                <p id="old-role-error" class="text-red-500 text-sm mt-1 hidden">
-                Le role est invalid!
-                </p>
-              <label
-                for="from"
+    <div
+    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+    <label
+    for="company"
+        class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+        >Entreprise
+        <span class="text-red-500">*</span>
+        </label>
+        <input
+        type="text"
+        id="company"
+        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <p id="company-error" class="text-red-500 text-sm mt-1 hidden">
+        La company est invalid!
+        </p>
+        <label
+        for="old-role"
+            class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+            >Rôle
+            <span class="text-red-500">*</span>
+            </label>
+            <input
+            type="text"
+            id="old-role"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <p id="old-role-error" class="text-red-500 text-sm mt-1 hidden">
+            Le role est invalid!
+            </p>
+            <label
+            for="from"
                 class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
                 >Depuis
                 <span class="text-red-500">*</span>
-              </label>
-              <input
+                </label>
+                <input
                 type="date"
                 id="from"
                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <p id="from-error" class="text-red-500 text-sm mt-1 hidden">
-              La date est invalid!
-              </p>
-              <label
+                />
+                <p id="from-error" class="text-red-500 text-sm mt-1 hidden">
+                La date est invalid!
+                </p>
+                <label
                 for="to"
-                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
-                >à
-                <span class="text-red-500">*</span>
-              </label>
-              <input
-                type="date"
-                id="to"
-                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />          
-              <p id="to-error" class="text-red-500 text-sm mt-1 hidden">
-              La date est invalid!
-              </p>
-            </div>`;
+                    class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+                    >à
+                    <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                    type="date"
+                    id="to"
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <p id="to-error" class="text-red-500 text-sm mt-1 hidden">
+                    La date est invalid!
+                    </p>
+                    </div>`;
 }
 
 function renderZoneAssignWindow(isRender) {
@@ -294,9 +294,7 @@ function renderZoneAssignWindow(isRender) {
     zoneBlur.classList.add("flex");
     renderEmployeeFiltredList();
 
-    setTimeout(() => {
-      zoneWindow.classList.replace("scale-5", "scale-100");
-    }, 1);
+    zoneWindow.classList.add("animate-scale");
   } else {
     zoneBlur.classList.add("hidden");
     zoneWindow.classList.replace("scale-100", "scale-5");
@@ -305,43 +303,60 @@ function renderZoneAssignWindow(isRender) {
 
 function renderEmployeeFiltredList() {
   const employeeList = document.getElementById("employee-list");
-  const employees = data.employees;
+
   employeeList.innerHTML = "";
   employees.forEach((employee) => {
-    employeeList.innerHTML += `
-      <divemployee
-        id="${employee.id}"
-        class="employee-card bg-gray-100 dark:bg-gray-900 transition-all duration-500 h-35 lg:w-65 rounded-2xl flex flex-col justify-center items-center shadow-lg relative"
-        draggable="true"
-      >
-        <button
-          class="absolute top-0 right-0 m-2 text-blue-500 hover:text-blue-700 transition-colors ease-in-out duration-150"
-        >
-          Assign
-        </button>
-        <img
-          src="${
-            employee.photo ? employee.photo : "public/Portrait_Placeholder.png"
-          }"
-          
-          class="rounded-full h-20 w-20"
-        />
-        <h3 class="text-center">${employee.name}</h3>
-        <span class="text-sm">${employee.role}</span>
-      </div>
-    `;
+    if (!employee.assigned) {
+      employeeList.innerHTML += `
+            <div
+            id="${employee.id}"
+            role="${employee.role}"
+            class="employee-card bg-gray-100 dark:bg-gray-900 transition-all duration-500 h-35 lg:w-65 rounded-2xl flex flex-col justify-center items-center shadow-lg relative"
+            draggable="true"
+            >
+            <img
+            src="${
+              employee.photo
+                ? employee.photo
+                : "public/Portrait_Placeholder.png"
+            }"
+
+            class="rounded-full h-20 w-20"
+            />
+            <h3 class="text-center">${employee.name}</h3>
+            <span class="text-sm">${employee.role}</span>
+            </div>
+            `;
+    }
   });
-  addEmployeeToZone();
   const closeZoneWindowBtn = document.getElementById("close-zone-window");
   closeZoneWindowBtn.addEventListener("click", () => {
     renderZoneAssignWindow(false);
   });
 }
 
-function addEmployeeToZone() {
+function addEmployeeToZone(roomAccess) {
+  const employeeCards = document.querySelectorAll(".employee-card");
+  employeeCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      console.log(card.role);
+      if (roomAccess == card.role || roomAccess == "All") {
+        assignEmployee(card.id);
+      } else alert("No Access");
+    });
+  });
+}
 
-  const employeeCard = document.getElementsByClassName("employee-card");
-  console.log(employeeCard);
+function assignEmployee(employeeId) {
+  employees.forEach((employee) => {
+    if (employee.id == employeeId) {
+      employee.assigned = true;
+    }
+  });
+  data.employees = employees;
+  saveDataToLocalstorage(data);
+  renderEmployeeFiltredList();
+  renderEmployeeList();
 }
 
 function initApp() {
@@ -373,7 +388,9 @@ function initApp() {
 
   plusBtn.forEach((element) => {
     element.addEventListener("click", () => {
+      const currentRoomAccess = element.getAttribute("room-access");
       renderZoneAssignWindow(true);
+      addEmployeeToZone(currentRoomAccess);
     });
   });
 }
