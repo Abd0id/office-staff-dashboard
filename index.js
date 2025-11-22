@@ -42,7 +42,7 @@ function saveData(
   email,
   phone,
   role,
-  assigned,
+  assigned = null,
   experiences = null
 ) {
   if (id) {
@@ -182,7 +182,7 @@ function formValidation(event) {
       employeeEmail.value,
       employeePhone.value,
       employeeRole.value,
-      false,
+      null,
       experiences
     );
   }
@@ -335,28 +335,44 @@ function renderEmployeeFiltredList() {
   });
 }
 
-function addEmployeeToZone(roomAccess) {
+function addEmployeeToZone(room, roomAccess) {
   const employeeCards = document.querySelectorAll(".employee-card");
   employeeCards.forEach((card) => {
     card.addEventListener("click", () => {
-      console.log(card.role);
       if (roomAccess == card.role || roomAccess == "All") {
-        assignEmployee(card.id);
+        assignEmployee(card.id, room);
       } else alert("No Access");
     });
   });
 }
 
-function assignEmployee(employeeId) {
+function assignEmployee(employeeId, room) {
   employees.forEach((employee) => {
     if (employee.id == employeeId) {
-      employee.assigned = true;
+      employee.assigned = room;
     }
   });
   data.employees = employees;
   saveDataToLocalstorage(data);
   renderEmployeeFiltredList();
   renderEmployeeList();
+  renderAssignedEmployees(room);
+}
+
+function renderAssignedEmployees(CurrentRoom) {
+  const plusBtn = document.querySelectorAll(".plus-btn");
+  console.log(CurrentRoom);
+
+  plusBtn.forEach((button) => {
+    const myRoom = button.getAttribute("room");
+    if (myRoom == CurrentRoom) {
+      employees.forEach((employee) => {
+        if (employee.assigned == CurrentRoom) {
+          button.classList.add("hidden");
+        }
+      });
+    }
+  });
 }
 
 function initApp() {
@@ -386,11 +402,12 @@ function initApp() {
 
   addExperience.addEventListener("click", renderExperienceForm);
 
-  plusBtn.forEach((element) => {
-    element.addEventListener("click", () => {
-      const currentRoomAccess = element.getAttribute("room-access");
+  plusBtn.forEach((button) => {
+    button.addEventListener("click", () => {
+      const currentRoom = button.getAttribute("room");
+      const currentRoomAccess = button.getAttribute("room-access");
       renderZoneAssignWindow(true);
-      addEmployeeToZone(currentRoomAccess);
+      addEmployeeToZone(currentRoom, currentRoomAccess);
     });
   });
 }
