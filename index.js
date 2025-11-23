@@ -24,10 +24,8 @@ function renderForm(isRender) {
     formBlur.classList.remove("hidden");
     formBlur.classList.add("flex");
 
-    myForm.classList.add("animate-scale");
   } else {
     formBlur.classList.add("hidden");
-    myForm.classList.replace("scale-100", "scale-5");
   }
 }
 
@@ -316,9 +314,9 @@ function renderZoneAssignWindow(isRender) {
     renderEmployeeFiltredList();
 
     zoneWindow.classList.add("animate-scale");
+    zoneBlur.classList.add("animate-opacity");
   } else {
     zoneBlur.classList.add("hidden");
-    zoneWindow.classList.replace("scale-100", "scale-5");
   }
 }
 
@@ -356,72 +354,9 @@ function renderEmployeeFiltredList() {
   });
 }
 
-function addEmployeeToZone(room, roomAccess) {
-  const employeeCards = document.querySelectorAll(".employee-card");
-  employeeCards.forEach((card) => {
-    card.addEventListener("click", () => {
-      if (roomAccess == card.role || roomAccess == "All") {
-        assignEmployee(card.id, room);
-      } else alert("No Access");
-    });
-  });
-}
-
-function assignEmployee(employeeId, room) {
-  employees.forEach((employee) => {
-    if (employee.id == employeeId) {
-      employee.assigned = room;
-    }
-  });
-  data.employees = employees;
-  saveDataToLocalstorage(data);
-  renderEmployeeFiltredList();
-  renderEmployeeList();
-  renderAssignedEmployees(room);
-  renderAssignedEmployees;
-}
-
-function renderAssignedEmployees(currentRoom) {
-  const plusBtn = document.querySelectorAll(".plus-btn");
-
-  plusBtn.forEach((button) => {
-    const myRoom = button.getAttribute("room");
-    if (myRoom == currentRoom) {
-      employees.forEach((employee) => {
-        if (employee.assigned == currentRoom) {
-          button.classList.remove("animate-ping");
-          button.parentElement.insertAdjacentHTML(
-            "afterend",
-            `
-            <div
-            id="${employee.id}"
-            role="${employee.role}"
-            class="employee-card bg-gray-100 dark:bg-gray-900 transition-all duration-500 h-35 lg:w-65 rounded-2xl flex flex-col justify-center items-center shadow-lg relative"
-            draggable="true"
-            >
-            <span
-            class="absolute top-0 right-0 m-2 text-red-500 hover:text-red-700 transition-colors ease-in-out duration-150"
-            >
-            X
-            </span>
-            <img
-            src="${
-              employee.photo
-                ? employee.photo
-                : "public/Portrait_Placeholder.png"
-            }"
-
-            class="rounded-full h-20 w-20"
-            />
-            <h3 class="text-center">${employee.name}</h3>
-            <span class="text-sm">${employee.role}</span>
-            </div>
-            `
-          );
-        }
-      });
-    }
-  });
+function addEmployeeToZone() {
+  const employeeCard = document.getElementsByClassName("employee-card");
+  console.log(employeeCard);
 }
 
 function initApp() {
