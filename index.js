@@ -22,10 +22,8 @@ function renderForm(isRender) {
     formBlur.classList.remove("hidden");
     formBlur.classList.add("flex");
 
-    myForm.classList.add("animate-scale");
   } else {
     formBlur.classList.add("hidden");
-    myForm.classList.replace("scale-100", "scale-5");
   }
 }
 
@@ -293,9 +291,9 @@ function renderZoneAssignWindow(isRender) {
     renderEmployeeFiltredList();
 
     zoneWindow.classList.add("animate-scale");
+    zoneBlur.classList.add("animate-opacity");
   } else {
     zoneBlur.classList.add("hidden");
-    zoneWindow.classList.replace("scale-100", "scale-5");
   }
 }
 
