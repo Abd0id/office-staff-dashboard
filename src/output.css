@@ -48,7 +48,9 @@
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
-    --animate-wiggle: wiggle 1s ease-in-out zzinfinite;
+    --animate-wiggle: wiggle 0.3s ease-in-out;
+    --animate-scale: scale 0.5s ease-in-out;
+    --animate-opacity: opacity 0.2s ease-in-out;
   }
 }
 @layer base {
@@ -294,20 +296,14 @@
   .flex-1 {
     flex: 1;
   }
-  .scale-5 {
-    --tw-scale-x: 5%;
-    --tw-scale-y: 5%;
-    --tw-scale-z: 5%;
-    scale: var(--tw-scale-x) var(--tw-scale-y);
-  }
-  .scale-100 {
-    --tw-scale-x: 100%;
-    --tw-scale-y: 100%;
-    --tw-scale-z: 100%;
-    scale: var(--tw-scale-x) var(--tw-scale-y);
+  .animate-opacity {
+    animation: var(--animate-opacity);
   }
   .animate-ping {
     animation: var(--animate-ping);
+  }
+  .animate-scale {
+    animation: var(--animate-scale);
   }
   .flex-col {
     flex-direction: column;
@@ -643,21 +639,6 @@
     }
   }
 }
-@property --tw-scale-x {
-  syntax: "*";
-  inherits: false;
-  initial-value: 1;
-}
-@property --tw-scale-y {
-  syntax: "*";
-  inherits: false;
-  initial-value: 1;
-}
-@property --tw-scale-z {
-  syntax: "*";
-  inherits: false;
-  initial-value: 1;
-}
 @property --tw-border-style {
   syntax: "*";
   inherits: false;
@@ -843,12 +824,25 @@
     transform: rotate(1deg);
   }
 }
+@keyframes scale {
+  0% {
+    transform: scale(50%);
+  }
+  100% {
+    transform: scale(100%);
+  }
+}
+@keyframes opacity {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
-      --tw-scale-x: 1;
-      --tw-scale-y: 1;
-      --tw-scale-z: 1;
       --tw-border-style: solid;
       --tw-font-weight: initial;
       --tw-shadow: 0 0 #0000;
