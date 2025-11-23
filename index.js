@@ -10,11 +10,13 @@ function getData() {
     return JSON.parse(localStorage.getItem(STORAGEKEY));
   }
 }
-let data = getData();
 
 function saveDataToLocalstorage(data) {
   localStorage.setItem(STORAGEKEY, JSON.stringify(data));
 }
+
+let data = getData();
+const employees = data.employees;
 
 function renderForm(isRender) {
   const formBlur = document.getElementById("form-blur");
@@ -38,18 +40,18 @@ function saveData(
   email,
   phone,
   role,
+  assigned = null,
   experiences = null
 ) {
-  let employeesData = data.employees;
-
   if (id) {
-    employeesData.forEach((employee) => {
+    employees.forEach((employee) => {
       if (employee.id == id) {
         employee.photo = photoUrl;
         employee.name = name;
         employee.email = email;
         employee.phone = phone;
         employee.role = role;
+        employee.assigned = assigned;
         employee.experiences = experiences;
       }
     });
@@ -61,62 +63,30 @@ function saveData(
       email: email,
       phone: phone,
       role: role,
+      assigned: assigned,
       experiences: experiences,
     };
-    employeesData.push(newEmployee);
+    employees.push(newEmployee);
   }
-  data.employees = employeesData;
+  data.employees = employees;
   saveDataToLocalstorage(data);
-  console.log(data);
   renderEmployeeList();
-}
-
-function renderEmployeeList() {
-  const sideBar = document.getElementById("side-bar");
-  const employees = data.employees;
-
-  sideBar.innerHTML = "";
-  employees.forEach((employee) => {
-    sideBar.innerHTML += `
-      <div
-        id="${employee.id}"
-        class="bg-gray-100 dark:bg-gray-900 transition-all duration-500 h-35 lg:w-65 rounded-2xl m-5 flex flex-col justify-center items-center shadow-lg relative"
-        draggable="true"
-      >
-        <button
-          class="absolute top-0 right-0 m-2 text-blue-500 hover:text-blue-700 transition-colors ease-in-out duration-150"
-        >
-          Edit
-        </button>
-        <img
-          src="${
-            employee.photo ? employee.photo : "public/Portrait_Placeholder.png"
-          }"
-          
-          class="rounded-full h-20 w-20"
-        />
-        <h3 class="text-center">${employee.name}</h3>
-        <span class="text-sm">${employee.role}</span>
-      </div>
-    `;
-  });
 }
 
 function formValidation(event) {
   event.preventDefault();
-  let myInputs = document.getElementsByTagName("input");
 
-  const employeeOldCompany = document.getElementById("company");
-  const companyError = document.getElementById("company-error");
+  const employeeOldCompany = document.querySelectorAll(".company");
+  const companyError = document.querySelectorAll(".company-error");
 
-  const employeeOldRole = document.getElementById("old-role");
-  const oldRoleError = document.getElementById("old-role-error");
+  const employeeOldRole = document.querySelectorAll(".old-role");
+  const oldRoleError = document.querySelectorAll(".old-role-error");
 
-  const employeeFromDate = document.getElementById("from");
-  const fromError = document.getElementById("from-error");
+  const employeeFromDate = document.querySelectorAll(".from");
+  const fromError = document.querySelectorAll(".from-error");
 
-  const employeeToDate = document.getElementById("to");
-  const toError = document.getElementById("to-error");
+  const employeeToDate = document.querySelectorAll(".to");
+  const toError = document.querySelectorAll(".to-error");
 
   const employeeName = document.getElementById("name");
   const nameError = document.getElementById("name-error");
@@ -129,6 +99,8 @@ function formValidation(event) {
   const employeePhone = document.getElementById("phone");
   const phoneError = document.getElementById("phone-error");
   const phoneRegex = /^[+]\d{1,3}\s\d{3}[-]\d{4,6}/;
+
+  const employeeExperiences = document.querySelectorAll(".experience");
 
   let valid = true;
 
@@ -152,38 +124,55 @@ function formValidation(event) {
     phoneError.classList.add("hidden");
   }
 
-  if (myInputs.length > 4) {
-    if (!employeeOldCompany.value.match(nameRegex)) {
-      companyError.classList.remove("hidden");
+  let experiences = [];
+
+  employeeExperiences.forEach((exp, i) => {
+    const comp = employeeOldCompany[i];
+    const compErr = companyError[i];
+
+    const role = employeeOldRole[i];
+    const roleErr = oldRoleError[i];
+
+    const from = employeeFromDate[i];
+    const fromErr = fromError[i];
+
+    const to = employeeToDate[i];
+    const toErr = toError[i];
+
+    if (!comp.value.match(nameRegex)) {
+      compErr.classList.remove("hidden");
       valid = false;
     } else {
-      companyError.classList.add("hidden");
+      compErr.classList.add("hidden");
     }
-    if (!employeeOldRole.value.match(nameRegex)) {
-      oldRoleError.classList.remove("hidden");
+
+    if (!role.value.match(nameRegex)) {
+      roleErr.classList.remove("hidden");
       valid = false;
     } else {
-      companyError.classList.add("hidden");
+      roleErr.classList.add("hidden");
     }
-    if (employeeFromDate.value > employeeToDate.value) {
-      fromError.classList.remove("hidden");
-      toError.classList.remove("hidden");
+
+    if (!from.value || !to.value || from.value > to.value) {
+      fromErr.classList.remove("hidden");
+      toErr.classList.remove("hidden");
       valid = false;
     } else {
-      fromError.classList.add("hidden");
-      toError.classList.add("hidden");
+      fromErr.classList.add("hidden");
+      toErr.classList.add("hidden");
     }
-    var experiences = [
-      employeeOldCompany.value,
-      employeeOldRole.value,
-      employeeFromDate.value,
-      employeeToDate.value,
-    ];
-  }
+
+    experiences.push({
+      company: comp.value,
+      oldRole: role.value,
+      fromDate: from.value,
+      toDate: to.value,
+    });
+  });
 
   const employeeRole = document.getElementById("role");
 
-  employeePhotoUrl.addEventListener("input", () => {
+  employeePhotoUrl.addEventListener("change", () => {
     if (employeePhotoUrl.value) {
       employeePreview.src = employeePhotoUrl.value;
     } else {
@@ -193,7 +182,6 @@ function formValidation(event) {
 
   if (valid) {
     let myID = generateId(employeePhone.value, employeeEmail.value);
-    const employees = data.employees;
 
     for (const emp of employees) {
       if (emp.id === myID) {
@@ -201,8 +189,6 @@ function formValidation(event) {
         return;
       }
     }
-
-    console.log(experiences);
 
     renderForm(false);
     saveData(
@@ -212,74 +198,111 @@ function formValidation(event) {
       employeeEmail.value,
       employeePhone.value,
       employeeRole.value,
+      null,
       experiences
     );
   }
 }
 
+function renderEmployeeList() {
+  const sideBar = document.getElementById("side-bar");
+  sideBar.innerHTML = "";
+  employees.forEach((employee) => {
+    if (!employee.assigned) {
+      sideBar.innerHTML += `
+            <div
+            id="${employee.id}"
+            class="bg-gray-100 dark:bg-gray-900 transition-all duration-500 h-35 lg:w-65 rounded-2xl m-5 flex flex-col justify-center items-center shadow-lg relative"
+            draggable="true"
+            >
+            <button
+            class="absolute top-0 right-0 m-2 text-blue-500 hover:text-blue-700 transition-colors ease-in-out duration-150"
+            >
+            Edit
+            </button>
+            <img
+            src="${
+              employee.photo
+                ? employee.photo
+                : "public/Portrait_Placeholder.png"
+            }"
+
+            class="rounded-full h-20 w-20"
+            />
+            <h3 class="text-center">${employee.name}</h3>
+            <span class="text-sm">${employee.role}</span>
+            </div>
+            `;
+    }
+  });
+}
+
 function renderExperienceForm() {
   let expForm = document.getElementById("exp");
-  expForm.innerHTML += `
-              <div
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <label
-                for="company"
-                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
-                >Entreprise
-                <span class="text-red-500">*</span>
+  expForm.insertAdjacentHTML(
+    "beforeend",
+    `
+      <div
+      class="experience w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <label
+      for="company"
+          class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+          >Entreprise
+          <span class="text-red-500">*</span>
+          </label>
+          <input
+          type="text"
+          id=""
+          class="company w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p id="" class="company-error text-red-500 text-sm mt-1 hidden">
+          La company est invalid!
+          </p>
+          <label
+          for="old-role"
+              class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+              >Rôle
+              <span class="text-red-500">*</span>
               </label>
               <input
-                type="text"
-                id="company"
-                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="text"
+              id=""
+              class="old-role w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-                <p id="company-error" class="text-red-500 text-sm mt-1 hidden">
-                La company est invalid!
-                </p>
-              <label
-                for="old-role"
-                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
-                >Rôle
-                <span class="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                id="old-role"
-                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-                <p id="old-role-error" class="text-red-500 text-sm mt-1 hidden">
-                Le role est invalid!
-                </p>
-              <label
-                for="from"
-                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
-                >Depuis
-                <span class="text-red-500">*</span>
-              </label>
-              <input
-                type="date"
-                id="from"
-                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <p id="from-error" class="text-red-500 text-sm mt-1 hidden">
-              La date est invalid!
+              <p id="" class="old-role-error text-red-500 text-sm mt-1 hidden">
+              Le role est invalid!
               </p>
               <label
-                for="to"
-                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
-                >à
-                <span class="text-red-500">*</span>
-              </label>
-              <input
-                type="date"
-                id="to"
-                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />          
-              <p id="to-error" class="text-red-500 text-sm mt-1 hidden">
-              La date est invalid!
-              </p>
-            </div>`;
+              for="from"
+                  class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+                  >Depuis
+                  <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                  type="date"
+                  id=""
+                  class="from w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <p id="" class="from-error text-red-500 text-sm mt-1 hidden">
+                  La date est invalid!
+                  </p>
+                  <label
+                  for="to"
+                      class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+                      >à
+                      <span class="text-red-500">*</span>
+                      </label>
+                      <input
+                      type="date"
+                      id=""
+                      class="to w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p id="" class="to-error text-red-500 text-sm mt-1 hidden">
+                      La date est invalid!
+                      </p>
+                      </div>`
+  );
 }
 
 function renderZoneAssignWindow(isRender) {
@@ -299,42 +322,104 @@ function renderZoneAssignWindow(isRender) {
 
 function renderEmployeeFiltredList() {
   const employeeList = document.getElementById("employee-list");
-  const employees = data.employees;
+
   employeeList.innerHTML = "";
   employees.forEach((employee) => {
-    employeeList.innerHTML += `
-      <divemployee
-        id="${employee.id}"
-        class="employee-card bg-gray-100 dark:bg-gray-900 transition-all duration-500 h-35 lg:w-65 rounded-2xl flex flex-col justify-center items-center shadow-lg relative"
-        draggable="true"
-      >
-        <button
-          class="absolute top-0 right-0 m-2 text-blue-500 hover:text-blue-700 transition-colors ease-in-out duration-150"
-        >
-          Assign
-        </button>
-        <img
-          src="${
-            employee.photo ? employee.photo : "public/Portrait_Placeholder.png"
-          }"
-          
-          class="rounded-full h-20 w-20"
-        />
-        <h3 class="text-center">${employee.name}</h3>
-        <span class="text-sm">${employee.role}</span>
-      </div>
-    `;
+    if (!employee.assigned) {
+      employeeList.innerHTML += `
+            <div
+            id="${employee.id}"
+            role="${employee.role}"
+            class="employee-card bg-gray-100 dark:bg-gray-900 transition-all duration-500 h-35 lg:w-65 rounded-2xl flex flex-col justify-center items-center shadow-lg relative"
+            draggable="true"
+            >
+            <img
+            src="${
+              employee.photo
+                ? employee.photo
+                : "public/Portrait_Placeholder.png"
+            }"
+
+            class="rounded-full h-20 w-20"
+            />
+            <h3 class="text-center">${employee.name}</h3>
+            <span class="text-sm">${employee.role}</span>
+            </div>
+            `;
+    }
   });
-  addEmployeeToZone();
   const closeZoneWindowBtn = document.getElementById("close-zone-window");
   closeZoneWindowBtn.addEventListener("click", () => {
     renderZoneAssignWindow(false);
   });
 }
 
-function addEmployeeToZone() {
-  const employeeCard = document.getElementsByClassName("employee-card");
-  console.log(employeeCard);
+function addEmployeeToZone(room, roomAccess) {
+  const employeeCards = document.querySelectorAll(".employee-card");
+  employeeCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      if (roomAccess == card.role || roomAccess == "All") {
+        assignEmployee(card.id, room);
+      } else alert("No Access");
+    });
+  });
+}
+
+function assignEmployee(employeeId, room) {
+  employees.forEach((employee) => {
+    if (employee.id == employeeId) {
+      employee.assigned = room;
+    }
+  });
+  data.employees = employees;
+  saveDataToLocalstorage(data);
+  renderEmployeeFiltredList();
+  renderEmployeeList();
+  renderAssignedEmployees(room);
+  renderAssignedEmployees;
+}
+
+function renderAssignedEmployees(currentRoom) {
+  const plusBtn = document.querySelectorAll(".plus-btn");
+
+  plusBtn.forEach((button) => {
+    const myRoom = button.getAttribute("room");
+    if (myRoom == currentRoom) {
+      employees.forEach((employee) => {
+        if (employee.assigned == currentRoom) {
+          button.classList.remove("animate-ping");
+          button.parentElement.insertAdjacentHTML(
+            "afterend",
+            `
+            <div
+            id="${employee.id}"
+            role="${employee.role}"
+            class="employee-card bg-gray-100 dark:bg-gray-900 transition-all duration-500 h-35 lg:w-65 rounded-2xl flex flex-col justify-center items-center shadow-lg relative"
+            draggable="true"
+            >
+            <span
+            class="absolute top-0 right-0 m-2 text-red-500 hover:text-red-700 transition-colors ease-in-out duration-150"
+            >
+            X
+            </span>
+            <img
+            src="${
+              employee.photo
+                ? employee.photo
+                : "public/Portrait_Placeholder.png"
+            }"
+
+            class="rounded-full h-20 w-20"
+            />
+            <h3 class="text-center">${employee.name}</h3>
+            <span class="text-sm">${employee.role}</span>
+            </div>
+            `
+          );
+        }
+      });
+    }
+  });
 }
 
 function initApp() {
@@ -364,10 +449,14 @@ function initApp() {
 
   addExperience.addEventListener("click", renderExperienceForm);
 
-  plusBtn.forEach((element) => {
-    element.addEventListener("click", () => {
+  plusBtn.forEach((button) => {
+    const currentRoom = button.getAttribute("room");
+    button.addEventListener("click", () => {
+      const currentRoomAccess = button.getAttribute("room-access");
       renderZoneAssignWindow(true);
+      addEmployeeToZone(currentRoom, currentRoomAccess);
     });
+    renderAssignedEmployees(currentRoom);
   });
 }
 
