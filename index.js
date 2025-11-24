@@ -448,7 +448,12 @@ function addEmployeeToZone(room, roomAccess) {
   const employeeCards = document.querySelectorAll(".employee-card");
   employeeCards.forEach((card) => {
     card.addEventListener("click", () => {
-      if (roomAccess == card.getAttribute("role") || roomAccess == "All") {
+      if (
+        roomAccess == card.getAttribute("role") ||
+        roomAccess == "All" ||
+        card.role == "Manager" ||
+        (roomAccess == "Allbut" && card.role != "Nettoyage")
+      ) {
         assignEmployee(card.id, room);
       } else alert("No Access");
     });
