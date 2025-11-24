@@ -331,66 +331,68 @@ function renderExperienceForm() {
   expForm.insertAdjacentHTML(
     "beforeend",
     `
-        <div
-        class="experience w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-        <label
-        for="company"
-            class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
-            >Entreprise
-            <span class="text-red-500">*</span>
-            </label>
-            <input
-            type="text"
-            id=""
-            class="company w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <p id="" class="company-error text-red-500 text-sm mt-1 hidden">
-            La company est invalid!
-            </p>
-            <label
-            for="old-role"
-                class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
-                >Rôle
-                <span class="text-red-500">*</span>
-                </label>
-                <input
-                type="text"
-                id=""
-                class="old-role w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <p id="" class="old-role-error text-red-500 text-sm mt-1 hidden">
-                Le role est invalid!
-                </p>
-                <label
-                for="from"
-                    class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
-                    >Depuis
-                    <span class="text-red-500">*</span>
-                    </label>
-                    <input
-                    type="date"
-                    id=""
-                    class="from w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <p id="" class="from-error text-red-500 text-sm mt-1 hidden">
-                    La date est invalid!
-                    </p>
-                    <label
-                    for="to"
-                        class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
-                        >à
-                        <span class="text-red-500">*</span>
-                        </label>
-                        <input
-                        type="date"
-                        id=""
-                        class="to w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <p id="" class="to-error text-red-500 text-sm mt-1 hidden">
-                        La date est invalid!
-                        </p>
-                        </div>`
+       <div
+    class="experience w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+  >
+    <label
+      for="company"
+      class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+      >Entreprise
+      <span class="text-red-500">*</span>
+    </label>
+    <input
+      type="text"
+      id=""
+      class="company w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <p id="" class="company-error text-red-500 text-sm mt-1 hidden">
+      La company est invalid!
+    </p>
+    <label
+      for="old-role"
+      class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+      >Rôle
+      <span class="text-red-500">*</span>
+    </label>
+    <input
+      type="text"
+      id=""
+      class="old-role w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <p id="" class="old-role-error text-red-500 text-sm mt-1 hidden">
+      Le role est invalid!
+    </p>
+    <label
+      for="from"
+      class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+      >Depuis
+      <span class="text-red-500">*</span>
+    </label>
+    <input
+      type="date"
+      id=""
+      class="from w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <p id="" class="from-error text-red-500 text-sm mt-1 hidden">
+      La date est invalid!
+    </p>
+    <label
+      for="to"
+      class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+      >à
+      <span class="text-red-500">*</span>
+    </label>
+    <input
+      type="date"
+      id=""
+      class="to w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <p id="" class="to-error text-red-500 text-sm mt-1 hidden">
+      La date est invalid!
+    </p>
+  </div>
+`
+
   );
 }
 
