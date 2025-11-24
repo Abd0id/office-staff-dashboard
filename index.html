@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Office staff dashboard</title>
+    <link href="src/output.css" rel="stylesheet" />
+    <script src="dark-mode.js" defer></script>
+    <script src="index.js" defer></script>
+  </head>
+  <body
+    class="bg-gray-50 dark:bg-gray-900 dark:text-white transition-colors duration-500"
+  >
+    <header
+      class="bg-blue-50 dark:bg-gray-800 transition-colors duration-150 h-20 flex items-center justify-between rounded-br-2xl shadow-xl z-100 sticky top-0 p-3"
+    >
+      <div class="flex lg:hidden">
+        <div id="mobile-button" class="-m-2.5 rounded-md p-2.5">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+            class="size-6"
+          >
+            <path
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+      <h1 class="text-2xl font-bold">Office Manager</h1>
+
+      <div id="theme-toggle" class="right-0 flex">
+        <svg
+          class="cursor-pointer"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="currentColor"
+        >
+          <path
+            id="theme-icon-moon"
+            class="hidden"
+            d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"
+          />
+          <path
+            id="theme-icon-sun"
+            d="M440-760v-160h80v160h-80Zm266 110-55-55 112-115 56 57-113 113Zm54 210v-80h160v80H760ZM440-40v-160h80v160h-80ZM254-652 140-763l57-56 113 113-56 54Zm508 512L651-255l54-54 114 110-57 59ZM40-440v-80h160v80H40Zm157 300-56-57 112-112 29 27 29 28-114 114Zm283-100q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm0-80q66 0 113-47t47-113q0-66-47-113t-113-47q-66 0-113 47t-47 113q0 66 47 113t113 47Zm0-160Z"
+          />
+        </svg>
+      </div>
+    </header>
+    <main class="min-h-screen lg:flex">
+      <div
+        id="form-blur"
+        class="hidden animate-opacity backdrop-blur-2xl h-screen w-screen fixed z-50 justify-center items-center"
+      >
+        <form
+          id="my-form"
+          class="bg-blue-50 dark:bg-gray-800 animate-scale flex flex-col gap-3 z-50 h-150 w-150 p-5 transition-all duration-500 rounded-2xl overflow-x-auto"
+        >
+          <label for="url">photo</label>
+          <div class="flex justify-center">
+            <img
+              id="employee-preview"
+              src="public/Portrait_Placeholder.png"
+              alt=""
+              class="rounded-full h-20 w-20"
+            />
+          </div>
+          <input
+            type="url"
+            id="url"
+            placeholder="Photo url"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <label
+            for="name"
+            class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+          >
+            Nom <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="name"
+            required=""
+            placeholder="JohnDoe"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p id="name-error" class="text-red-500 text-sm mt-1 hidden">
+            Le nom est invalid!
+          </p>
+
+          <label
+            for="email"
+            class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+            >Email<span class="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            placeholder="JohnDoe@example.com"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p id="email-error" class="text-red-500 text-sm mt-1 hidden">
+            Le email est invalid!
+          </p>
+
+          <label
+            for="phone"
+            class="block text-sm font-medium text-gray-700 dark:text-white mb-2"
+            >Telephone<span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="phone"
+            placeholder="+212 123-456789"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p id="phone-error" class="text-red-500 text-sm mt-1 hidden">
+            Le Telephone est invalid!
+          </p>
+
+          <label for="role">Choisir un rôle</label>
+          <select
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            id="role"
+          >
+            <option value="Réceptionniste">Réceptionniste</option>
+            <option value="Technicien IT">Technicien IT</option>
+            <option value="Agent de sécurité">Agent de sécurité</option>
+            <option value="Nettoyage">Nettoyage</option>
+            <option value="Authres">Autres rôles</option>
+          </select>
+          <label>Expérience</label>
+
+          <div id="exp" class="flex flex-col gap-2">
+            <button
+              id="add-experience"
+              type="button"
+              class="flex-1 bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+            >
+              Ajouter une expérience
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            class="flex-1 bg-blue-500 hover:bg-blue-600 dark:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            id="cancel-btn"
+            class="flex-1 bg-gray-300 hover:bg-gray-500 dark:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+
+      <div
+        id="zone-blur"
+        class="hidden animate-opacity backdrop-blur-2xl h-screen w-screen fixed z-50 justify-center items-center"
+      >
+        <div
+          id="zone-window"
+          class="bg-blue-50 dark:bg-gray-800 animate-scale flex flex-col gap-3 z-50 h-150 w-150 p-5 transition-all duration-500 rounded-2xl overflow-x-auto"
+        >
+          <div class="flex flex-col gap-5">
+            <div class="flex justify-between">
+              <h2 class="text-2xl">Choisir un employee pour assignée</h2>
+              <svg
+                class="cursor-pointer hover:text-red-500 transition-colors"
+                id="close-zone-window"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+                />
+              </svg>
+            </div>
+
+            <div
+              id="employee-list"
+              class="flex flex-wrap gap-3 justify-center items-center"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="employee-detail-blur"
+        class="hidden animate-opacity backdrop-blur-2xl h-screen w-screen fixed z-50 justify-center items-center"
+      >
+        <div
+          id="employee-detail-window"
+          class="bg-blue-50 dark:bg-gray-800 animate-scale flex flex-col gap-3 z-50 h-150 w-150 p-5 transition-all duration-500 rounded-2xl overflow-y-auto"
+        >
+          <div class="flex justify-between items-center">
+            <h2 class="text-2xl font-bold">Détails de l'employé</h2>
+            <svg
+              id="close-detail-window"
+              class="cursor-pointer hover:text-red-500 transition-colors"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="currentColor"
+            >
+              <path
+                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+              />
+            </svg>
+          </div>
+
+          <div id="employee-detail-content" class="flex flex-col gap-4"></div>
+        </div>
+      </div>
+
+      <section
+        id="adding-zone"
+        class="bg-blue-100 dark:bg-blue-950 transition-colors duration-150 lg:h-screen lg:flex lg:flex-col hidden sticky items-center top-0 left-0 z-40 rounded-br-2xl"
+      >
+        <div
+          class="flex flex-col items-center bg-blue-50 dark:bg-blue-900 transition-colors duration-150 rounded-b-2xl shadow-2xl h-45 p-2 gap-2"
+        >
+          <h2 class="text-md font-medium text-center">
+            Members du personnel (non affectés)
+          </h2>
+          <button
+            id="add-employee"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 cursor-pointer"
+          >
+            Ajouter personnel
+          </button>
+        </div>
+
+        <div id="side-bar" class="overflow-x-auto"></div>
+      </section>
+
+      <section
+        class="w-screen flex flex-col lg:flex-row justify-center flex-wrap"
+      >
+        <div
+          class="bg-blue-100 dark:bg-blue-900 hover:bg-blue-500 dark:hover:bg-blue-600 transition-colors duration-500 h-100 overflow-x-auto lg:w-80 rounded-2xl m-5 py-2 flex flex-col items-center relative shadow-xl"
+        >
+          <h3 class="text-center absolute">Salle de conférence</h3>
+          <svg
+            class="plus-btn absolute bottom-5 right-5 z-5 cursor-pointer"
+            room-access="All"
+            room="conférence"
+            fill="currentColor"
+            width="30"
+            viewBox="0 0 512 512"
+          >
+            <path
+              d="M256 0c70.68 0 134.68 28.66 181.01 74.99C483.34 121.32 512 185.32 512 256c0 70.68-28.66 134.68-74.99 181.01C390.68 483.34 326.68 512 256 512c-70.68 0-134.68-28.66-181.01-74.99C28.66 390.68 0 326.68 0 256c0-70.68 28.66-134.68 74.99-181.01C121.32 28.66 185.32 0 256 0zm0 366.69c-14.07 0-25.59-11.55-25.59-25.59v-59.52H170.9c-14.05 0-25.6-11.54-25.6-25.6 0-14.05 11.52-25.59 25.6-25.59h59.51v-59.51c0-14.05 11.53-25.59 25.59-25.59s25.59 11.51 25.59 25.59v59.51h59.52c14.07 0 25.6 11.52 25.6 25.59 0 14.08-11.55 25.6-25.6 25.6h-59.52v59.52c0 14.07-11.52 25.59-25.59 25.59zM412.87 99.13C372.73 58.99 317.26 34.16 256 34.16c-61.26 0-116.73 24.83-156.87 64.97S34.16 194.74 34.16 256c0 61.26 24.83 116.73 64.97 156.87s95.61 64.97 156.87 64.97c61.26 0 116.73-24.83 156.87-64.97s64.97-95.61 64.97-156.87c0-61.26-24.83-116.73-64.97-156.87z"
+            />
+          </svg>
+          <div
+            class="employee-zone p-10 flex flex-wrap gap-2 mt-2 justify-center"
+          ></div>
+        </div>
+        <div
+          class="bg-blue-100 hover:animate-wiggle dark:bg-blue-900 hover:bg-blue-500 dark:hover:bg-blue-600 transition-colors duration-500 h-100 overflow-x-auto lg:w-80 rounded-2xl m-5 py-2 flex flex-col items-center relative shadow-xl"
+        >
+          <h3 class="text-center absolute">Réception</h3>
+          <svg
+            class="plus-btn animate-ping absolute bottom-5 right-5 z-5 cursor-pointer"
+            room-access="Réceptionniste"
+            room="réception"
+            fill="#FF3131"
+            width="30"
+            viewBox="0 0 512 512"
+          >
+            <path
+              d="M256 0c70.68 0 134.68 28.66 181.01 74.99C483.34 121.32 512 185.32 512 256c0 70.68-28.66 134.68-74.99 181.01C390.68 483.34 326.68 512 256 512c-70.68 0-134.68-28.66-181.01-74.99C28.66 390.68 0 326.68 0 256c0-70.68 28.66-134.68 74.99-181.01C121.32 28.66 185.32 0 256 0zm0 366.69c-14.07 0-25.59-11.55-25.59-25.59v-59.52H170.9c-14.05 0-25.6-11.54-25.6-25.6 0-14.05 11.52-25.59 25.6-25.59h59.51v-59.51c0-14.05 11.53-25.59 25.59-25.59s25.59 11.51 25.59 25.59v59.51h59.52c14.07 0 25.6 11.52 25.6 25.59 0 14.08-11.55 25.6-25.6 25.6h-59.52v59.52c0 14.07-11.52 25.59-25.59 25.59zM412.87 99.13C372.73 58.99 317.26 34.16 256 34.16c-61.26 0-116.73 24.83-156.87 64.97S34.16 194.74 34.16 256c0 61.26 24.83 116.73 64.97 156.87s95.61 64.97 156.87 64.97c61.26 0 116.73-24.83 156.87-64.97s64.97-95.61 64.97-156.87c0-61.26-24.83-116.73-64.97-156.87z"
+            />
+          </svg>
+          <div
+            class="employee-zone p-10 flex flex-wrap gap-2 mt-2 justify-center"
+          ></div>
+        </div>
+        <div
+          class="bg-blue-100 hover:animate-wiggle dark:bg-blue-900 hover:bg-blue-500 dark:hover:bg-blue-600 transition-colors duration-500 h-100 overflow-x-auto lg:w-80 rounded-2xl m-5 py-2 flex flex-col items-center relative shadow-xl"
+        >
+          <h3 class="text-center absolute">Salle des serveurs</h3>
+          <svg
+            class="plus-btn animate-ping absolute bottom-5 right-5 z-5 cursor-pointer"
+            room-access="Technicien IT"
+            room="serveurs"
+            fill="#FF3131"
+            width="30"
+            viewBox="0 0 512 512"
+          >
+            <path
+              d="M256 0c70.68 0 134.68 28.66 181.01 74.99C483.34 121.32 512 185.32 512 256c0 70.68-28.66 134.68-74.99 181.01C390.68 483.34 326.68 512 256 512c-70.68 0-134.68-28.66-181.01-74.99C28.66 390.68 0 326.68 0 256c0-70.68 28.66-134.68 74.99-181.01C121.32 28.66 185.32 0 256 0zm0 366.69c-14.07 0-25.59-11.55-25.59-25.59v-59.52H170.9c-14.05 0-25.6-11.54-25.6-25.6 0-14.05 11.52-25.59 25.6-25.59h59.51v-59.51c0-14.05 11.53-25.59 25.59-25.59s25.59 11.51 25.59 25.59v59.51h59.52c14.07 0 25.6 11.52 25.6 25.59 0 14.08-11.55 25.6-25.6 25.6h-59.52v59.52c0 14.07-11.52 25.59-25.59 25.59zM412.87 99.13C372.73 58.99 317.26 34.16 256 34.16c-61.26 0-116.73 24.83-156.87 64.97S34.16 194.74 34.16 256c0 61.26 24.83 116.73 64.97 156.87s95.61 64.97 156.87 64.97c61.26 0 116.73-24.83 156.87-64.97s64.97-95.61 64.97-156.87c0-61.26-24.83-116.73-64.97-156.87z"
+            />
+          </svg>
+          <div
+            class="employee-zone p-10 flex flex-wrap gap-2 mt-2 justify-center"
+          ></div>
+        </div>
+        <div
+          class="bg-blue-100 hover:animate-wiggle dark:bg-blue-900 hover:bg-blue-500 dark:hover:bg-blue-600 transition-colors duration-500 h-100 overflow-x-auto lg:w-80 rounded-2xl m-5 py-2 flex flex-col items-center relative shadow-xl"
+        >
+          <h3 class="text-center absolute">Salle de sécurité</h3>
+          <svg
+            class="plus-btn animate-ping absolute bottom-5 right-5 z-5 cursor-pointer"
+            room-access="Agent de sécurité"
+            room="sécurité"
+            fill="#FF3131"
+            width="30"
+            viewBox="0 0 512 512"
+          >
+            <path
+              d="M256 0c70.68 0 134.68 28.66 181.01 74.99C483.34 121.32 512 185.32 512 256c0 70.68-28.66 134.68-74.99 181.01C390.68 483.34 326.68 512 256 512c-70.68 0-134.68-28.66-181.01-74.99C28.66 390.68 0 326.68 0 256c0-70.68 28.66-134.68 74.99-181.01C121.32 28.66 185.32 0 256 0zm0 366.69c-14.07 0-25.59-11.55-25.59-25.59v-59.52H170.9c-14.05 0-25.6-11.54-25.6-25.6 0-14.05 11.52-25.59 25.6-25.59h59.51v-59.51c0-14.05 11.53-25.59 25.59-25.59s25.59 11.51 25.59 25.59v59.51h59.52c14.07 0 25.6 11.52 25.6 25.59 0 14.08-11.55 25.6-25.6 25.6h-59.52v59.52c0 14.07-11.52 25.59-25.59 25.59zM412.87 99.13C372.73 58.99 317.26 34.16 256 34.16c-61.26 0-116.73 24.83-156.87 64.97S34.16 194.74 34.16 256c0 61.26 24.83 116.73 64.97 156.87s95.61 64.97 156.87 64.97c61.26 0 116.73-24.83 156.87-64.97s64.97-95.61 64.97-156.87c0-61.26-24.83-116.73-64.97-156.87z"
+            />
+          </svg>
+          <div
+            class="employee-zone p-10 flex flex-wrap gap-2 mt-2 justify-center"
+          ></div>
+        </div>
+        <div
+          class="bg-blue-100 dark:bg-blue-900 hover:bg-blue-500 dark:hover:bg-blue-600 transition-colors duration-500 h-100 overflow-x-auto lg:w-80 rounded-2xl m-5 py-2 flex flex-col items-center relative shadow-xl"
+        >
+          <h3 class="text-center absolute">Salle du personnel</h3>
+          <svg
+            class="plus-btn absolute bottom-5 right-5 z-5 cursor-pointer"
+            room-access="All"
+            room="personnel"
+            fill="currentColor"
+            width="30"
+            viewBox="0 0 512 512"
+          >
+            <path
+              d="M256 0c70.68 0 134.68 28.66 181.01 74.99C483.34 121.32 512 185.32 512 256c0 70.68-28.66 134.68-74.99 181.01C390.68 483.34 326.68 512 256 512c-70.68 0-134.68-28.66-181.01-74.99C28.66 390.68 0 326.68 0 256c0-70.68 28.66-134.68 74.99-181.01C121.32 28.66 185.32 0 256 0zm0 366.69c-14.07 0-25.59-11.55-25.59-25.59v-59.52H170.9c-14.05 0-25.6-11.54-25.6-25.6 0-14.05 11.52-25.59 25.6-25.59h59.51v-59.51c0-14.05 11.53-25.59 25.59-25.59s25.59 11.51 25.59 25.59v59.51h59.52c14.07 0 25.6 11.52 25.6 25.59 0 14.08-11.55 25.6-25.6 25.6h-59.52v59.52c0 14.07-11.52 25.59-25.59 25.59zM412.87 99.13C372.73 58.99 317.26 34.16 256 34.16c-61.26 0-116.73 24.83-156.87 64.97S34.16 194.74 34.16 256c0 61.26 24.83 116.73 64.97 156.87s95.61 64.97 156.87 64.97c61.26 0 116.73-24.83 156.87-64.97s64.97-95.61 64.97-156.87c0-61.26-24.83-116.73-64.97-156.87z"
+            />
+          </svg>
+          <div
+            class="employee-zone p-10 flex flex-wrap gap-2 mt-2 justify-center"
+          ></div>
+        </div>
+        <div
+          class="bg-blue-100 hover:animate-wiggle dark:bg-blue-900 hover:bg-blue-500 dark:hover:bg-blue-600 transition-colors duration-500 h-100 overflow-x-auto lg:w-80 rounded-2xl m-5 py-2 flex flex-col items-center relative shadow-xl"
+        >
+          <h3 class="text-center absolute">Salle d’archives</h3>
+
+          <svg
+            class="animate-ping absolute bottom-5 right-5 z-5 cursor-pointer"
+            room-access="All"
+            room="archives"
+            fill="#FF3131"
+            width="30"
+            viewBox="0 0 512 512"
+          >
+            <path
+              d="M256 0c70.68 0 134.68 28.66 181.01 74.99C483.34 121.32 512 185.32 512 256c0 70.68-28.66 134.68-74.99 181.01C390.68 483.34 326.68 512 256 512c-70.68 0-134.68-28.66-181.01-74.99C28.66 390.68 0 326.68 0 256c0-70.68 28.66-134.68 74.99-181.01C121.32 28.66 185.32 0 256 0zm0 366.69c-14.07 0-25.59-11.55-25.59-25.59v-59.52H170.9c-14.05 0-25.6-11.54-25.6-25.6 0-14.05 11.52-25.59 25.6-25.59h59.51v-59.51c0-14.05 11.53-25.59 25.59-25.59s25.59 11.51 25.59 25.59v59.51h59.52c14.07 0 25.6 11.52 25.6 25.59 0 14.08-11.55 25.6-25.6 25.6h-59.52v59.52c0 14.07-11.52 25.59-25.59 25.59zM412.87 99.13C372.73 58.99 317.26 34.16 256 34.16c-61.26 0-116.73 24.83-156.87 64.97S34.16 194.74 34.16 256c0 61.26 24.83 116.73 64.97 156.87s95.61 64.97 156.87 64.97c61.26 0 116.73-24.83 156.87-64.97s64.97-95.61 64.97-156.87c0-61.26-24.83-116.73-64.97-156.87z"
+            />
+          </svg>
+          <div
+            class="employee-zone p-10 flex flex-wrap gap-2 mt-2 justify-center"
+          ></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --animate-wiggle: wiggle 0.3s ease-in-out ;
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-1deg);
+    }
+    50% {
+      transform: rotate(1deg);
+    }
+  }
+  --animate-scale: scale 0.5s ease-in-out;
+
+  @keyframes scale {
+    0% {
+      transform: scale(50%);
+    }
+    100% {
+      transform: scale(100%);
+    }
+  }
+  --animate-opacity: opacity 0.2s ease-in-out;
+
+  @keyframes opacity {
+    0% {
+      opacity: 0%;
+    }
+    100% {
+      opacity: 100%;
+    }
+  }
+}
