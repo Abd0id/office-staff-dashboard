@@ -392,7 +392,6 @@ function renderExperienceForm() {
     </p>
   </div>
 `
-
   );
 }
 
@@ -567,70 +566,66 @@ function showEmployeeDetails(employeeId) {
   const detailBlur = document.getElementById("employee-detail-blur");
   const detailContent = document.getElementById("employee-detail-content");
 
-  detailContent.innerHTML = `
+  let html = `
     <div class="flex flex-col items-center gap-3">
-    <img
-    src="${employee.photo ? employee.photo : "public/Portrait_Placeholder.png"}"
-    class="rounded-full h-32 w-32"
-    alt="${employee.name}"
-    />
-    <h3 class="text-2xl font-semibold">${employee.name}</h3>
-    <span class=" px-3 py-1 text-sm">${employee.role}</span>
+      <img src="${
+        employee.photo ? employee.photo : "public/Portrait_Placeholder.png"
+      }" 
+           class="rounded-full h-32 w-32" 
+           alt="${employee.name}" />
+      <h3 class="text-2xl font-semibold">${employee.name}</h3>
+      <span class="px-3 py-1 text-sm">${employee.role}</span>
     </div>
 
-    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
-    <h4 class="font-semibold text-lg mb-2">Informations de contact</h4>
-    <div class="space-y-2">
-    <p><span class="font-medium">Email:</span> ${employee.email}</p>
-    <p><span class="font-medium">Téléphone:</span> ${employee.phone}</p>
+    <div class="bg-blue-300 dark:bg-gray-700 p-4 rounded-lg">
+      <h4 class="font-semibold text-lg mb-2">Informations de contact</h4>
+      <div class="space-y-2">
+        <p><span class="font-medium">Email:</span> ${employee.email}</p>
+        <p><span class="font-medium">Téléphone:</span> ${employee.phone}</p>
+      </div>
     </div>
-    </div>
+  `;
 
-    ${
-      employee.assigned
-        ? `
-        <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
-        <h4 class="font-semibold text-lg mb-2">Affectation</h4>
-        <p><span class="font-medium">Zone assignée:</span> ${employee.assigned}</p>
-        </div>
-        `
-        : `
-        <div class="bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg">
-        <p class="text-center">Aucune zone assignée</p>
-        </div>
-        `
-    }
+  html += `
+    <div class="bg-blue-300 dark:bg-gray-700 p-4 rounded-lg">
+      <h4 class="font-semibold text-lg mb-2">Affectation</h4>
+  `;
 
-    ${
-      employee.experiences && employee.experiences.length > 0
-        ? `
-        <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+  if (employee.assigned) {
+    html += `<p><span class="font-medium">Zone assignée:</span> ${employee.assigned}</p>`;
+  } else {
+    html += `<p class="text-center">Aucune zone assignée</p>`;
+  }
+
+  html += `</div>`;
+
+  if (employee.experiences && employee.experiences.length > 0) {
+    html += `
+      <div class="bg-blue-300 dark:bg-gray-700 p-4 rounded-lg">
         <h4 class="font-semibold text-lg mb-3">Expériences professionnelles</h4>
         <div class="space-y-3">
-        ${employee.experiences
-          .map(
-            (exp) => `
-                <div class="border-l-4 border-blue-500 pl-3">
-                <p class="font-semibold">${exp.oldRole}</p>
-                <p class="text-sm">${exp.company}</p>
-                <p class="text-xs text-gray-600 dark:text-gray-400">
-                ${exp.fromDate} - ${exp.toDate}
-                </p>
-                </div>
-                `
-          )
-          .join("")}
-            </div>
-            </div>
-            `
-        : `
-            <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
-            <p class="text-center text-gray-600 dark:text-gray-400">Aucune expérience enregistrée</p>
-            </div>
-            `
-    }
     `;
 
+    for (let exp of employee.experiences) {
+      html += `
+      <div class="border-l-4 border-blue-500 pl-3">
+        <p class="font-semibold">${exp.oldRole}</p>
+        <p class="text-sm">${exp.company}</p>
+        <p class="text-xs text-gray-600 dark:text-gray-400">${exp.fromDate} - ${exp.toDate}</p>
+      </div>
+    `;
+    }
+
+    html += `</div></div>`;
+  } else {
+    html += `
+      <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+        <p class="text-center text-gray-600 dark:text-gray-400">Aucune expérience enregistrée</p>
+      </div>
+    `;
+  }
+
+  detailContent.innerHTML = html;
   detailBlur.classList.remove("hidden");
   detailBlur.classList.add("flex");
 }

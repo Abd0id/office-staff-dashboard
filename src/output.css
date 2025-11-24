@@ -7,6 +7,7 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-100: oklch(93.6% 0.032 17.717);
     --color-red-500: oklch(63.7% 0.237 25.331);
     --color-orange-50: oklch(98% 0.016 73.684);
     --color-yellow-100: oklch(97.3% 0.071 103.193);
@@ -16,6 +17,7 @@
     --color-yellow-900: oklch(42.1% 0.095 57.708);
     --color-blue-50: oklch(97% 0.014 254.604);
     --color-blue-100: oklch(93.2% 0.032 255.585);
+    --color-blue-300: oklch(80.9% 0.105 251.813);
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-blue-700: oklch(48.8% 0.243 264.376);
@@ -235,17 +237,8 @@
   .left-0 {
     left: calc(var(--spacing) * 0);
   }
-  .z-0 {
-    z-index: 0;
-  }
   .z-5 {
     z-index: 5;
-  }
-  .z-10 {
-    z-index: 10;
-  }
-  .z-20 {
-    z-index: 20;
   }
   .z-40 {
     z-index: 40;
@@ -253,17 +246,8 @@
   .z-50 {
     z-index: 50;
   }
-  .z-53 {
-    z-index: 53;
-  }
-  .z-55 {
-    z-index: 55;
-  }
   .z-100 {
     z-index: 100;
-  }
-  .z-150 {
-    z-index: 150;
   }
   .-m-2 {
     margin: calc(var(--spacing) * -2);
@@ -466,6 +450,9 @@
   .bg-blue-100 {
     background-color: var(--color-blue-100);
   }
+  .bg-blue-300 {
+    background-color: var(--color-blue-300);
+  }
   .bg-blue-500 {
     background-color: var(--color-blue-500);
   }
@@ -481,8 +468,8 @@
   .bg-orange-50 {
     background-color: var(--color-orange-50);
   }
-  .bg-yellow-100 {
-    background-color: var(--color-yellow-100);
+  .bg-red-100 {
+    background-color: var(--color-red-100);
   }
   .bg-yellow-500 {
     background-color: var(--color-yellow-500);
@@ -699,11 +686,6 @@
       outline-style: none;
     }
   }
-  .lg\:z-40 {
-    @media (width >= 64rem) {
-      z-index: 40;
-    }
-  }
   .lg\:flex {
     @media (width >= 64rem) {
       display: flex;
@@ -712,11 +694,6 @@
   .lg\:hidden {
     @media (width >= 64rem) {
       display: none;
-    }
-  }
-  .lg\:h-\[126vh\] {
-    @media (width >= 64rem) {
-      height: 126vh;
     }
   }
   .lg\:h-screen {
@@ -787,11 +764,6 @@
   .dark\:bg-yellow-800 {
     &:where(.dark, .dark *) {
       background-color: var(--color-yellow-800);
-    }
-  }
-  .dark\:bg-yellow-900 {
-    &:where(.dark, .dark *) {
-      background-color: var(--color-yellow-900);
     }
   }
   .dark\:text-gray-400 {
